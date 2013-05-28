@@ -55,28 +55,28 @@ while True:
     newsprites = oldsprites
     for i,sprite in enumerate(newsprites):
         print '\n\nSPRITE:',sprite
-        print 'STEP Z:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+        print 'INITIAL STATE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         sprite.envExertion(envtable[int(sprite.blk.x-player.blk.x+2)][int(sprite.blk.y-player.blk.y+2)])
-        print 'STEP A:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+        print 'AFTER envExertion:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         for tile in tiles:
-            print 'STEP B USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+            print 'AFTER tileExertion USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
             sprite.tileExertion(tile)
         for oldsprite in oldsprites:
-            print 'STEP C USING',oldsprite,': F =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+            print 'AFTER spriteExertion USING',oldsprite,': F =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
             sprite.spriteExertion(oldsprite)
         sprite.move(envtable[int(player.blk.x-sprite.blk.x+2)][int(player.blk.x+2)])
-        print 'STEP D:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+        print 'AFTER FIRST MOVE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         for tile in tiles:
             sprite.tileTouch(tile,oldsprites[i])
-            print 'STEP E USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+            print 'AFTER tileTouch USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         for j,oldsprite in enumerate(oldsprites):
             if i != j:
                 sprite.spriteTouch(oldsprite,oldsprites[i])
-            print 'STEP F USING',oldsprite,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+            print 'AFTER spriteTouch USING',oldsprite,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         sprite.locomotion()
-        print 'STEP G:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+        print 'AFTER locomotion:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         sprite.moveAgain(envtable[int(player.blk.x-sprite.blk.x+2)][int(player.blk.x+2)])
-        print 'STEP H:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+        print 'AFTER SECOND MOVE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
     print loaded
     # store the modified sprites
     for i in xrange(-2,3):
