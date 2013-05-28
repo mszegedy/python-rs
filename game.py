@@ -50,9 +50,12 @@ while True:
             col.rotate(-1)
         loaded.appendleft(col)
         loaded.rotate(-1)
-    # start interacting!
     oldsprites.append(player)
     newsprites = map(copy.deepcopy,oldsprites)
+    # Surface objects suck at being deepcopied, so you need to just copy those:
+    for index,sprite in enumerate(newsprites):
+        sprite.img = copy.copy(oldsprites[index].img)
+    # start interacting!
     for i,sprite in enumerate(newsprites):
         print '\n\nINDEX IS',i,'\nSPRITE:',sprite
         print 'INITIAL STATE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
@@ -193,8 +196,7 @@ while True:
     screen.fill((230,230,255))
     for item in bgimages+sprites+[player]+fgimages:
         try:
-            #screen.blit(item.img,(int((item.blk.x-cam.blk.x)*BLKX+item.pos.x-cam.pos.x),int(SCRY-((item.blk.y-cam.blk.y)*BLKY+item.pos.y+item.img.get_height()-cam.pos.y))))
-            pass
+            screen.blit(item.img,(int((item.blk.x-cam.blk.x)*BLKX+item.pos.x-cam.pos.x),int(SCRY-((item.blk.y-cam.blk.y)*BLKY+item.pos.y+item.img.get_height()-cam.pos.y))))
         except TypeError:
             pass
     pygame.display.update()
