@@ -30,7 +30,7 @@ for i in xrange(-2,3):
         col.append(world.getBlock(player.blk+vec(i,j)))
         loaded.append(col)
 while True:
-#    print 'NEW ITERATION:\n',loaded
+    print 'NEW ITERATION:\n',loaded
     # Check whether to quit or not
     for event in pygame.event.get():
         if event.type == QUIT: sys.exit()
@@ -54,30 +54,30 @@ while True:
     oldsprites.append(player)
     newsprites = oldsprites
     for i,sprite in enumerate(newsprites):
-#        print '\n\nSPRITE:',sprite
-#        print 'STEP Z:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+        print '\n\nSPRITE:',sprite
+        print 'STEP Z:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         sprite.envExertion(envtable[int(sprite.blk.x-player.blk.x+2)][int(sprite.blk.y-player.blk.y+2)])
-#        print 'STEP A:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+        print 'STEP A:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         for tile in tiles:
-#            print 'STEP B USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+            print 'STEP B USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
             sprite.tileExertion(tile)
         for oldsprite in oldsprites:
-#            print 'STEP C USING',oldsprite,': F =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+            print 'STEP C USING',oldsprite,': F =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
             sprite.spriteExertion(oldsprite)
         sprite.move(envtable[int(player.blk.x-sprite.blk.x+2)][int(player.blk.x+2)])
-#        print 'STEP D:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+        print 'STEP D:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         for tile in tiles:
             sprite.tileTouch(tile,oldsprites[i])
-#            print 'STEP E USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+            print 'STEP E USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         for j,oldsprite in enumerate(oldsprites):
             if i != j:
                 sprite.spriteTouch(oldsprite,oldsprites[i])
-#            print 'STEP F USING',oldsprite,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+            print 'STEP F USING',oldsprite,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         sprite.locomotion()
-#        print 'STEP G:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+        print 'STEP G:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         sprite.moveAgain(envtable[int(player.blk.x-sprite.blk.x+2)][int(player.blk.x+2)])
-#        print 'STEP H:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
-#    print loaded
+        print 'STEP H:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+    print loaded
     # store the modified sprites
     for i in xrange(-2,3):
         col = loaded.popleft()
@@ -103,7 +103,7 @@ while True:
     col.rotate(-2)
     loaded.append(col)
     loaded.rotate(-2)
-#    print loaded
+    print loaded
     try:
         if player.blk != blk.i:
             if player.blk.y-blk.i.y >= 1:
