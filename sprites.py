@@ -40,7 +40,7 @@ class sprite:
     def exert(self,sprite):
         return vec(0,0)
     def touch(self,sprite,oldsprite):
-        return sprite
+        return ((),sprite)
 class player(sprite):
     def __init__(self):
         self.img = pygame.image.load('images/player/stand.png')
