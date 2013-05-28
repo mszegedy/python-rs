@@ -54,7 +54,7 @@ while True:
     oldsprites.append(player)
     newsprites = oldsprites
     for i,sprite in enumerate(newsprites):
-        print '\n\nSPRITE:',sprite
+        print '\n\nINDEX IS',i,'\nSPRITE:',sprite
         print 'INITIAL STATE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         sprite.envExertion(envtable[int(sprite.blk.x-player.blk.x+2)][int(sprite.blk.y-player.blk.y+2)])
         print 'AFTER envExertion:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
@@ -78,6 +78,8 @@ while True:
         sprite.moveAgain(envtable[int(player.blk.x-sprite.blk.x+2)][int(player.blk.x+2)])
         print 'AFTER SECOND MOVE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
     print loaded
+    # delete the player from the sprites list so (s)he isn't stored to the blocks
+    del newsprites[-1]
     # store the modified sprites
     for i in xrange(-2,3):
         col = loaded.popleft()

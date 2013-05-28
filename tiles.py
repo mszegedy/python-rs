@@ -28,17 +28,25 @@ class solid(tile):
     def touch(self,sprite,oldsprite):
         # takes a sprite, calculates collision with it, returns it bundled in a tuple with a tuple of the sides the sprite touched
         relspritepos = vec(BLKX*(sprite.blk.x-self.blk.x)+sprite.pos.x,BLKY*(sprite.blk.y-self.blk.y)+sprite.pos.y)
-        print 'relspritepos =',relspritepos
+        print 'NOW COLLISION:\nrelspritepos =',relspritepos
         reloldspritepos = vec(BLKX*(oldsprite.blk.x-self.blk.x)+oldsprite.pos.x,BLKY*(sprite.blk.y-self.blk.y)+oldsprite.pos.y)
         print 'reloldspritepos =',reloldspritepos
         spritetop = relspritepos.y+sprite.dim.y-1.
+        print 'spritetop =',spritetop
         spritebottom = relspritepos.y
+        print 'spritebottom =',spritebottom
         spriteleft = relspritepos.x
+        print 'spriteleft =',spriteleft
         spriteright = relspritepos.x+sprite.dim.x-1.
+        print 'spriteright =',spriteright
         oldspritetop = reloldspritepos.y+oldsprite.dim.y-1.
+        print 'oldspritetop =',oldspritetop
         oldspritebottom = reloldspritepos.y
+        print 'oldspritebottom =',oldspritebottom
         oldspriteleft = reloldspritepos.x
+        print 'oldspriteleft =',oldspriteleft
         oldspriteright = reloldspritepos.x+oldsprite.dim.x-1.
+        print 'oldspriteright =',oldspriteright,'\nTILE STATE:\nself.top =',self.top,'\nself.bottom =',self.bottom,'\nself.left =',self.left,'\nself.right =',self.right
         sides = [] # sides from which the tile was impacted upon; returned as part of a tuple with the sprite itself
         if (spritebottom <= self.top+1 and self.top+1 <= oldspritebottom) and (spriteright >= self.left and self.right >= spriteleft):
             sprite.vel.y = 0
