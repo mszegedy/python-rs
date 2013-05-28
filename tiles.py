@@ -27,8 +27,10 @@ class solid(tile):
         self.fric   = -0.02                   # the proportionality of the force exerted on the tile vs the force of friction that the tile exerts in return
     def touch(self,sprite,oldsprite):
         # takes a sprite, calculates collision with it, returns it bundled in a tuple with a tuple of the sides the sprite touched
-        relspritepos = vec(BLKX*(sprite.blk.x-self.blk.x)+sprite.pos.x,BLKY*(sprite.blk.y-self.blk.y)+sprite.pos.x)
-        reloldspritepos = vec(BLKX*(oldsprite.blk.x-self.blk.x)+oldsprite.pos.x,BLKY*(sprite.blk.y-self.blk.y)+oldsprite.pos.x)
+        relspritepos = vec(BLKX*(sprite.blk.x-self.blk.x)+sprite.pos.x,BLKY*(sprite.blk.y-self.blk.y)+sprite.pos.y)
+        print 'relspritepos =',relspritepos
+        reloldspritepos = vec(BLKX*(oldsprite.blk.x-self.blk.x)+oldsprite.pos.x,BLKY*(sprite.blk.y-self.blk.y)+oldsprite.pos.y)
+        print 'reloldspritepos =',reloldspritepos
         spritetop = relspritepos.y+sprite.dim.y-1.
         spritebottom = relspritepos.y
         spriteleft = relspritepos.x
@@ -38,27 +40,27 @@ class solid(tile):
         oldspriteleft = reloldspritepos.x
         oldspriteright = reloldspritepos.x+oldsprite.dim.x-1.
         sides = [] # sides from which the tile was impacted upon; returned as part of a tuple with the sprite itself
-        if (spritebottom <= self.top+1 and self.top+1 <= oldspritebottom) and (spriteright >= self.left) and (spriteleft <= self.right):
+        if (spritebottom <= self.top+1 and self.top+1 <= oldspritebottom) and (spriteright >= self.left and self.right >= spriteleft):
             sprite.vel.y = 0
             sprite.pos.y = self.top+1.
             sprite.blk = self.blk
             if not sprite.walks:
                 sprite.F.x += sprite.F.y*self.fric
             sides.append('top')
-        if (spritetop >= self.bottom-1 and self.bottom-1 >= oldspritetop) and (spriteright >= self.left) and (spriteleft <= self.right):
+        if (spritetop >= self.bottom-1 and self.bottom-1 >= oldspritetop) and (spriteright >= self.left and self.right >= spriteleft):
             sprite.vel.y = 0
             sprite.pos.y = self.bottom-sprite.dim.y
             sprite.blk = self.blk
             if not sprite.walks:
                 sprite.F.x += sprite.F.y*self.fric
             sides.append('bottom')
-        if (spriteright >= self.left-1 and self.left-1 >= oldspriteright) and (spritetop >= self.bottom) and (spritebottom <= self.top):
+        if (spriteright >= self.left-1 and self.left-1 >= oldspriteright) and (spritetop >= self.bottom and self.top >= spritebottom):
             sprite.vel.x = 0
             sprite.pos.x = self.left-sprite.dim.x
             sprite.blk = self.blk
             sprite.F.y += sprite.F.x*self.fric
             sides.append('left')
-        if (spriteleft <= self.right+1 and self.right+1 <= oldspriteleft) and (spritetop >= self.bottom) and (spritebottom <= self.top):
+        if (spriteleft <= self.right+1 and self.right+1 <= oldspriteleft) and (spritetop >= self.bottom and self.top >= spritebottom):
             sprite.vel.x = 0
             sprite.pos.x = self.right+1.
             sprite.blk = self.blk

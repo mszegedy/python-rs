@@ -18,12 +18,11 @@ class newtonian: # an environment that functions according to Newtonian physics
             offset = sprite.pos.y//BLKY
             sprite.blk.y += offset
             sprite.pos.y -= offset*BLKY
-        sprite.F = vec(0,0)
         return sprite
     def moveAgain(self,sprite):
         # takes a sprite for the second time in the main loop and moves it again, accounting for
         # the fact that it's already moved the sprite once this frame, and then returns the sprite
-        sprite.pos += sprite.F/sprite.m
+        sprite.pos += sprite.secondF/sprite.m
         if not (0 <= sprite.pos.x and sprite.pos.x < BLKX):
             offset = sprite.pos.x//BLKX
             sprite.blk.x += offset
@@ -33,4 +32,5 @@ class newtonian: # an environment that functions according to Newtonian physics
             sprite.blk.y += offset
             sprite.pos.y -= offset*BLKY
         sprite.F = vec(0,0)
+        sprite.secondF = vec(0,0)
         return sprite
