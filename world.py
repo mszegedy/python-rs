@@ -32,13 +32,16 @@ def getBlock(i):
                       tiles.solid(vec(310.,20.),
                                   vec(300.,10.)),
                       tiles.platform(vec(120.,61.),
-                                     vec(100.,10.))],
+                                     vec(100.,10.)),
+                      tiles.solid(vec(270.,91.),
+                                  vec(300.,10.))],
                      [],
                      [],
                      [image(vec(10.,10.),'world/black.png'),
                       image(vec(310.,20.),'world/black.png'),
                       image(vec(20.,20.),'world/red.png'),
-                      image(vec(120.,61.),'world/platform.png')])
+                      image(vec(120.,61.),'world/platform.png'),
+                      image(vec(270.,91.),'world/black.png')])
     else:
         return block(vec(None,None),
                      envs.newtonian(),
