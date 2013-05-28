@@ -3,7 +3,7 @@
 # RELATIVISTIC SUN
 # by Michael Szegedy
 
-import pygame,sys,world
+import pygame,world,sys,copy,math
 from collections import deque
 from consts import *
 from sprites import player
@@ -52,33 +52,35 @@ while True:
         loaded.rotate(-1)
     # start interacting!
     oldsprites.append(player)
-    newsprites = oldsprites
+    newsprites = map(copy.deepcopy,oldsprites)
     for i,sprite in enumerate(newsprites):
         print '\n\nINDEX IS',i,'\nSPRITE:',sprite
-        print 'INITIAL STATE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+        print 'INITIAL STATE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
         sprite.envExertion(envtable[int(sprite.blk.x-player.blk.x+2)][int(sprite.blk.y-player.blk.y+2)])
-        print 'AFTER envExertion:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+        print 'AFTER envExertion:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
         for tile in tiles:
-            print 'AFTER tileExertion USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+            print 'AFTER tileExertion USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
             sprite.tileExertion(tile)
         for oldsprite in oldsprites:
-            print 'AFTER spriteExertion USING',oldsprite,': F =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+            print 'AFTER spriteExertion USING',oldsprite,': F =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
             sprite.spriteExertion(oldsprite)
         sprite.move(envtable[int(player.blk.x-sprite.blk.x+2)][int(player.blk.x+2)])
-        print 'AFTER FIRST MOVE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+        print 'AFTER FIRST MOVE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
         for tile in tiles:
             sprite.tileTouch(tile,oldsprites[i])
-            print 'AFTER tileTouch USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+            print 'AFTER tileTouch USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
         for j,oldsprite in enumerate(oldsprites):
             if i != j:
                 sprite.spriteTouch(oldsprite,oldsprites[i])
-            print 'AFTER spriteTouch USING',oldsprite,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+            print 'AFTER spriteTouch USING',oldsprite,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
         sprite.locomotion()
-        print 'AFTER locomotion:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+        print 'AFTER locomotion:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
         sprite.moveAgain(envtable[int(player.blk.x-sprite.blk.x+2)][int(player.blk.x+2)])
-        print 'AFTER SECOND MOVE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
+        print 'AFTER SECOND MOVE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
+    del oldsprites
     print loaded
-    # delete the player from the sprites list so (s)he isn't stored to the blocks
+    # store the player, and delete him/her from the sprites list so (s)he isn't stored to the blocks
+    player = newsprites[-1]
     del newsprites[-1]
     # store the modified sprites
     for i in xrange(-2,3):
@@ -191,7 +193,8 @@ while True:
     screen.fill((230,230,255))
     for item in bgimages+sprites+[player]+fgimages:
         try:
-            screen.blit(item.img,(int((item.blk.x-cam.blk.x)*BLKX+item.pos.x-cam.pos.x),int(SCRY-((item.blk.y-cam.blk.y)*BLKY+item.pos.y+item.img.get_height()-cam.pos.y))))
+            #screen.blit(item.img,(int((item.blk.x-cam.blk.x)*BLKX+item.pos.x-cam.pos.x),int(SCRY-((item.blk.y-cam.blk.y)*BLKY+item.pos.y+item.img.get_height()-cam.pos.y))))
+            pass
         except TypeError:
             pass
     pygame.display.update()
