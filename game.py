@@ -159,21 +159,21 @@ while True:
     # make the camera
     cam = camera()
     # set camera x position
-    if indextable[0][1].x == None and player.pos.x < SCRX/2:
-        cam.pos.x = player.pos.x/2.
-        #cam.pos.x = 0
+    if indextable[0][1].x == None and player.pos.x < SCRX/2.:
+        #cam.pos.x = player.pos.x/2.
+        cam.pos.x = 0
     elif indextable[2][1].x == None and player.pos.x+player.dim.y > BLKX-SCRX:
-        cam.pos.x = (BLKX+player.pos.x-SCRX)/2.
-        #cam.pos.x = BLKX-SCRX
+        #cam.pos.x = (BLKX+player.pos.x-SCRX)/2.
+        cam.pos.x = BLKX-SCRX
     else:
         cam.pos.x = player.pos.x-SCRX/2.
     # set camera y position
-    if indextable[1][0].y == None and player.pos.y < SCRY/2:
-        cam.pos.y = player.pos.y/2.
-        #cam.pos.y = 0
-    elif indextable[1][2].y == None and player.pos.y+player.dim.y > BLKY-SCRY:
-        cam.pos.y = (BLKY+player.pos.y-SCRY)/2.
-        #cam.pos.y = BLKY-SCRY
+    if indextable[1][0].y == None and player.pos.y < SCRY/2.:
+        #cam.pos.y = player.pos.y/2.
+        cam.pos.y = 0
+    elif indextable[1][2].y == None and player.pos.y+player.dim.y-1. > BLKY-SCRY:
+        #cam.pos.y = (BLKY+player.pos.y-SCRY)/2.
+        cam.pos.y = BLKY-SCRY
     else:
         cam.pos.y = player.pos.y-SCRY/2.
     # fix camera positions if it has gone outside of the player's block
