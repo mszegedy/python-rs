@@ -7,6 +7,8 @@ class image:
         self.blk = vec(0,0)                             # block in which to display image (set during creation of block in which it is)
         self.pos = pos                                  # position at which to display image
         self.img = pygame.image.load('images/'+imgpath) # the actual image
+    def animate(self):
+        return self.img
 class block:
     # a block in the face of the world; contains stuff for the player to interact with
     def __init__(self,index,env,tiles,sprites,bgimages,fgimages):
@@ -26,7 +28,7 @@ def getBlock(i):
     # gets a block from the world at vector index i
     if i == vec(0,0):
         return block(vec(0,0),
-                     envs.newtonian(),
+                     envs.classical(),
                      [tiles.solid(vec(10.,10.),
                                   vec(300.,10.)),
                       tiles.solid(vec(310.,20.),
@@ -44,7 +46,7 @@ def getBlock(i):
                       image(vec(270.,91.),'world/black.png')])
     else:
         return block(vec(None,None),
-                     envs.newtonian(),
+                     envs.classical(),
                      [],
                      [],
                      [],
