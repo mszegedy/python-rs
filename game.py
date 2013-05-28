@@ -51,25 +51,27 @@ while True:
         loaded.appendleft(col)
         loaded.rotate(-1)
     # start interacting!
+    oldsprites.append(player)
     newsprites = oldsprites
-    for sprite in newsprites+[player]:
+    for i,sprite in enumerate(newsprites):
 #        print '\n\nSPRITE:',sprite
 #        print 'STEP Z:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
-        sprite.environmentAction(envtable[int(sprite.blk.x-player.blk.x+2)][int(sprite.blk.y-player.blk.y+2)])
+        sprite.envExertion(envtable[int(sprite.blk.x-player.blk.x+2)][int(sprite.blk.y-player.blk.y+2)])
 #        print 'STEP A:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         for tile in tiles:
 #            print 'STEP B USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
-            sprite.tileDistanceAction(tile)
+            sprite.tileExertion(tile)
         for oldsprite in oldsprites:
 #            print 'STEP C USING',oldsprite,': F =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
-            sprite.spriteDistanceAction(oldsprite)
+            sprite.spriteExertion(oldsprite)
         sprite.move(envtable[int(player.blk.x-sprite.blk.x+2)][int(player.blk.x+2)])
 #        print 'STEP D:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         for tile in tiles:
-            sprite.tileTouchAction(tile)
+            sprite.tileTouch(tile,oldsprites[i])
 #            print 'STEP E USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
-        for oldsprite in oldsprites:
-            sprite.spriteTouchAction(oldsprite)
+        for j,oldsprite in enumerate(oldsprites):
+            if i != j:
+                sprite.spriteTouch(oldsprite,oldsprites[i])
 #            print 'STEP F USING',oldsprite,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk
         sprite.locomotion()
 #        print 'STEP G:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk

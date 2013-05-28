@@ -15,27 +15,31 @@ class sprite:
         self.walks   = False # whether the sprite has feet with which it walks (this matters for friction)
         self.flipped = False # False means the sprite's image looks as loaded (facing right, probably), and True means it is flipped the other way (facing left, probably)
         self.solid   = False # setting this to true will make the sprite interact with other sprites as though it is solid
-    def environmentAction(self,env):
+    def envExertion(self,env):
         self.F += env.exert(self)
-    def tileDistanceAction(self,tile):
+    def tileExertion(self,tile):
         # processes interaction with tiles at a distance
-        self.F += tile.distanceAction(self)
-    def tileTouchAction(self,tile):
+        self.F += tile.exert(self)
+    def tileTouch(self,tile,oldself):
         # processes interaction with tiles while touching them; default is that it won't pass through tiles that are solid on sides that they say they are solid on
-        self = tile.collision(self)
-    def spriteDistanceAction(self,sprite):
+        self = tile.touch(self,oldself)
+    def spriteExertion(self,sprite):
         # processes interaction with a sprite at a distance
-        pass
-    def spriteTouchAction(self,sprite):
+        self.F += sprite.exert(self)
+    def spriteTouch(self,sprite,oldself):
         # processes interaction with a sprite when touching the sprite
-        pass
-    def locomotion(self,env):
-        # movement that the sprite makes each frame by itself
-        pass
+        self = sprite.touch(self,oldself)
     def move(self,env):
         self = env.move(self)
     def moveAgain(self,env):
         self = env.moveAgain(self)
+    def locomotion(self,env):
+        # movement that the sprite makes each frame by itself
+        pass
+    def exert(self,sprite):
+        return vec(0,0)
+    def touch(self,sprite,oldsprite):
+        return sprite
 class player(sprite):
     def __init__(self):
         self.img = pygame.image.load('images/player/stand.png')
