@@ -104,33 +104,37 @@ while True:
     loaded.append(col)
     loaded.rotate(-2)
 #    print loaded
-    if player.blk != blk.i:
-        if player.blk.y-blk.i.y >= 1:
-            for k in xrange(-2,3):
-                col = loaded.pop()
-                col.popleft()
-                col.append(world.getBlock(player.blk+vec(k,2)))
+    try:
+        if player.blk != blk.i:
+            if player.blk.y-blk.i.y >= 1:
+                for k in xrange(-2,3):
+                    col = loaded.pop()
+                    col.popleft()
+                    col.append(world.getBlock(player.blk+vec(k,2)))
+                    loaded.append(col)
+                    loaded.rotate(1)
+            if player.blk.y-blk.i.y <= -1:
+                for k in xrange(-2,3):
+                    col = loaded.pop()
+                    col.pop()
+                    col.appendleft(world.getBlock(player.blk+vec(k,-2)))
+                    loaded.append(col)
+                    loaded.rotate(1)
+            if player.blk.x-blk.i.x >= 1:
+                loaded.popleft()
+                col = deque(())
+                for k in xrange(-2,3):
+                    col.append(world.getBlock(player.blk+vec(2,k)))
                 loaded.append(col)
-                loaded.rotate(1)
-        if player.blk.y-blk.i.y <= -1:
-            for k in xrange(-2,3):
-                col = loaded.pop()
-                col.pop()
-                col.appendleft(world.getBlock(player.blk+vec(k,-2)))
-                loaded.append(col)
-                loaded.rotate(1)
-        if player.blk.x-blk.i.x >= 1:
-            loaded.popleft()
-            col = deque(())
-            for k in xrange(-2,3):
-                col.append(world.getBlock(player.blk+vec(2,k)))
-            loaded.append(col)
-        if player.blk.x-blk.i.x <= -1:
-            loaded.pop()
-            col = deque(())
-            for k in xrange(-2,3):
-                col.appendleft(world.getBlock(player.blk+vec(-2,k)))
-            loaded.appendleft(col)
+            if player.blk.x-blk.i.x <= -1:
+                loaded.pop()
+                col = deque(())
+                for k in xrange(-2,3):
+                    col.appendleft(world.getBlock(player.blk+vec(-2,k)))
+                loaded.appendleft(col)
+    except TypeError:
+        print 'You\'ve left the world!'
+        sys.exit()
     ###############################
     # now just render everything! #
     ###############################
