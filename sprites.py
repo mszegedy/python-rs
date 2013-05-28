@@ -23,13 +23,13 @@ class sprite:
         self.F += tile.exert(self)
     def tileTouch(self,tile,oldself):
         # processes interaction with tiles while touching them; default is that it won't pass through tiles that are solid on sides that they say they are solid on
-        self = tile.touch(self,oldself)
+        sides,self = tile.touch(self,oldself)
     def spriteExertion(self,sprite):
         # processes interaction with a sprite at a distance
         self.F += sprite.exert(self)
     def spriteTouch(self,sprite,oldself):
         # processes interaction with a sprite when touching the sprite
-        self = sprite.touch(self,oldself)
+        sides,self = sprite.touch(self,oldself)
     def move(self,env):
         self = env.move(self)
     def moveAgain(self,env):
@@ -59,7 +59,12 @@ class player(sprite):
         self.lrvel       = 0     # added velocity from controls
     def tileTouchAction(self,tile):
         # the player is unaffected by horizontal friction, and can jump off of stuff below him
-        self,sides = tile.collision(self)
+        sides,self = tile.collision(self)
+        if 'top' in sides:
+            self.supported = True
+    def spriteTouchActian(self,sprite):
+        # ditto from tileTouchAction()
+        sides,self = tile.collision(self)
         if 'top' in sides:
             self.supported = True
     def locomotion(self):
