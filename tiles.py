@@ -66,4 +66,4 @@ class solid(tile):
             sprite.blk = self.blk
             sprite.F.y += sprite.F.x*self.fric
             sides.append('right')
-        return (sprite,sides)
+        return (sides,sprite)
