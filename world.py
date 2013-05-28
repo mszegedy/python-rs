@@ -9,7 +9,7 @@ class image:
         self.img = pygame.image.load('images/'+imgpath) # the actual image
 class block:
     # a block in the face of the world; contains stuff for the player to interact with
-    def __init__(self,index,env,tiles,sprites,fgimages,bgimages):
+    def __init__(self,index,env,tiles,sprites,bgimages,fgimages):
         self.i        = index    # the index of the block
         self.env      = env      # the physics environment of the block
         self.tiles    = tiles    # the tiles inside the block
@@ -34,7 +34,8 @@ def getBlock(i):
                      [],
                      [],
                      [image(vec(10.,10.),'world/black.png'),
-                      image(vec(310.,20.),'world/black.png')])
+                      image(vec(310.,20.),'world/black.png'),
+                      image(vec(20.,20.),'world/red.png')])
     else:
         return block(vec(None,None),
                      envs.newtonian(),

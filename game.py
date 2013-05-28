@@ -30,7 +30,7 @@ for i in xrange(-2,3):
         col.append(world.getBlock(player.blk+vec(i,j)))
         loaded.append(col)
 while True:
-    print 'NEW ITERATION:\n',loaded
+#    print 'NEW ITERATION:\n',loaded
     # Check whether to quit or not
     for event in pygame.event.get():
         if event.type == QUIT: sys.exit()
@@ -57,31 +57,30 @@ while True:
         sprite.img = copy.copy(oldsprites[index].img)
     # start interacting!
     for i,sprite in enumerate(newsprites):
-        print '\n\nINDEX IS',i,'\nSPRITE:',sprite
-        print 'INITIAL STATE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
+#        print '\n\nINDEX IS',i,'\nSPRITE:',sprite,'\nINITIAL STATE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
         sprite.envExertion(envtable[int(sprite.blk.x-player.blk.x+2)][int(sprite.blk.y-player.blk.y+2)])
-        print 'AFTER envExertion:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
+#        print 'AFTER envExertion:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
         for tile in tiles:
-            print 'AFTER tileExertion USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
+#            print 'AFTER tileExertion USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
             sprite.tileExertion(tile)
         for oldsprite in oldsprites:
-            print 'AFTER spriteExertion USING',oldsprite,': F =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
+#            print 'AFTER spriteExertion USING',oldsprite,': F =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
             sprite.spriteExertion(oldsprite)
         sprite.move(envtable[int(player.blk.x-sprite.blk.x+2)][int(player.blk.x+2)])
-        print 'AFTER FIRST MOVE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
+#        print 'AFTER FIRST MOVE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
         for tile in tiles:
             sprite.tileTouch(tile,oldsprites[i])
-            print 'AFTER tileTouch USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
+#            print 'AFTER tileTouch USING',tile,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
         for j,oldsprite in enumerate(oldsprites):
             if i != j:
                 sprite.spriteTouch(oldsprite,oldsprites[i])
-            print 'AFTER spriteTouch USING',oldsprite,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
+#            print 'AFTER spriteTouch USING',oldsprite,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
         sprite.locomotion()
-        print 'AFTER locomotion:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
+#        print 'AFTER locomotion:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
         sprite.moveAgain(envtable[int(player.blk.x-sprite.blk.x+2)][int(player.blk.x+2)])
-        print 'AFTER SECOND MOVE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
+#        print 'AFTER SECOND MOVE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
     del oldsprites
-    print loaded
+#    print loaded
     # store the player, and delete him/her from the sprites list so (s)he isn't stored to the blocks
     player = newsprites[-1]
     del newsprites[-1]
@@ -110,7 +109,7 @@ while True:
     col.rotate(-2)
     loaded.append(col)
     loaded.rotate(-2)
-    print loaded
+#    print loaded
     try:
         if player.blk != blk.i:
             if player.blk.y-blk.i.y >= 1:

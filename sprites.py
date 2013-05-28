@@ -5,17 +5,18 @@ from pygame.locals import *
 
 class sprite:
     def __init__(self):
-        self.img     = None     # pygame.img.load('path') goes on the right side of this assignment, and gives the sprite a fixed image
-        self.blk     = vec(0,0) # block index
-        self.pos     = vec(0,0) # position (bottom left of image)
-        self.vel     = vec(0,0) # velocity
-        self.dim     = vec(0,0) # dimensions of sprite (in pixels)
-        self.F       = vec(0,0) # net force acting on sprite
-        self.secondF = vec(0,0) # F used for quantifying additional forces exerted on sprite after first move
-        self.m       = 1.0      # mass
-        self.walks   = False    # whether the sprite has feet with which it walks (this matters for friction)
-        self.flipped = False    # False means the sprite's image looks as loaded (facing right, probably), and True means it is flipped the other way (facing left, probably)
-        self.solid   = False    # setting this to true will make the sprite interact with other sprites as though it is solid
+        self.img       = None     # pygame.img.load('path') goes on the right side of this assignment, and gives the sprite a fixed image
+        self.blk       = vec(0,0) # block index
+        self.pos       = vec(0,0) # position (bottom left of image)
+        self.vel       = vec(0,0) # velocity
+        self.secondvel = vec(0,0) # vel used for quantifying additional forces exerted on sprite after first move
+        self.dim       = vec(0,0) # dimensions of sprite (in pixels)
+        self.F         = vec(0,0) # net force acting on sprite
+        self.secondF   = vec(0,0) # F used for quantifying additional forces exerted on sprite after first move
+        self.m         = 1.0      # mass
+        self.walks     = False    # whether the sprite has feet with which it walks (this matters for friction)
+        self.flipped   = False    # False means the sprite's image looks as loaded (facing right, probably), and True means it is flipped the other way (facing left, probably)
+        self.solid     = False    # setting this to true will make the sprite interact with other sprites as though it is solid
     def envExertion(self,env):
         self.F += env.exert(self)
     def tileExertion(self,tile):
@@ -44,27 +45,28 @@ class sprite:
 class player(sprite):
     def __init__(self):
         self.img = pygame.image.load('images/player/stand.png')
-        self.blk = vec(0,0)      # block index
+        self.blk = vec(0,0)       # block index
         self.pos = vec(50,50)
-        self.vel = vec(0,0)      # velocity
+        self.vel = vec(0,0)       # velocity
         self.dim = vec(self.img.get_width(),self.img.get_height())
-        self.F   = vec(0,0)      # net force acting on sprite
-        self.m   = 1.0           # mass
-        self.secondF = vec(0,0)  # F used for quantifying additional forces exerted on sprite after first move
-        self.walks       = True  # whether the sprite has feet with which it walks (this matters for friction)
-        self.lastPressed = None  # The key, out of left or right, that was pressed last frame
-        self.flipped     = False # False means the sprite's image looks as loaded (facing right, probably), and True means it is flipped the other way (facing left, probably)
-        self.solid       = False # setting this to true will make the sprite interact with other sprites as though it is solid
-        self.supported   = False # whether there is something for the player to jump off of
-        self.lrvel       = 0     # added velocity from controls
-    def tileTouchAction(self,tile):
+        self.secondvel = vec(0,0) # vel used for quantifying additional forces exerted on sprite after first move
+        self.F   = vec(0,0)       # net force acting on sprite
+        self.m   = 1.0            # mass
+        self.secondF = vec(0,0)   # F used for quantifying additional forces exerted on sprite after first move
+        self.walks       = True   # whether the sprite has feet with which it walks (this matters for friction)
+        self.lastPressed = None   # The key, out of left or right, that was pressed last frame
+        self.flipped     = False  # False means the sprite's image looks as loaded (facing right, probably), and True means it is flipped the other way (facing left, probably)
+        self.solid       = False  # setting this to true will make the sprite interact with other sprites as though it is solid
+        self.supported   = False  # whether there is something for the player to jump off of
+        self.lrvel       = 0      # added velocity from controls
+    def tileTouch(self,tile,oldself):
         # the player is unaffected by horizontal friction, and can jump off of stuff below him
-        sides,self = tile.collision(self)
+        sides,self = tile.touch(self,oldself)
         if 'top' in sides:
             self.supported = True
-    def spriteTouchActian(self,sprite):
+    def spriteTouch(self,sprite,oldself):
         # ditto from tileTouchAction()
-        sides,self = tile.collision(self)
+        sides,self = tile.touch(self,oldself)
         if 'top' in sides:
             self.supported = True
     def locomotion(self):
