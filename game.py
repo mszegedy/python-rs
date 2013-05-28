@@ -66,6 +66,8 @@ while True:
         for oldsprite in oldsprites:
 #            print 'AFTER spriteExertion USING',oldsprite,': F =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
             sprite.spriteExertion(oldsprite)
+        sprite.locomotion()
+#            print 'AFTER locomotion:\n'
         sprite.move(envtable[int(player.blk.x-sprite.blk.x+2)][int(player.blk.x+2)])
 #        print 'AFTER FIRST MOVE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
         for tile in tiles:
@@ -75,8 +77,6 @@ while True:
             if i != j:
                 sprite.spriteTouch(oldsprite,oldsprites[i])
 #            print 'AFTER spriteTouch USING',oldsprite,':\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
-        sprite.locomotion()
-#        print 'AFTER locomotion:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
         sprite.moveAgain(envtable[int(player.blk.x-sprite.blk.x+2)][int(player.blk.x+2)])
 #        print 'AFTER SECOND MOVE:\nF =',sprite.F,'\nvel =',sprite.vel,'\npos =',sprite.pos,'\nblk =',sprite.blk,'\nOLD SPRITE:\nF =',oldsprites[i].F,'\nvel =',oldsprites[i].vel,'\npos =',oldsprites[i].pos,'\nblk =',oldsprites[i].blk
     del oldsprites
@@ -195,7 +195,7 @@ while True:
     screen.fill((230,230,255))
     for item in bgimages+sprites+[player]+fgimages:
         try:
-            screen.blit(item.img,(int((item.blk.x-cam.blk.x)*BLKX+item.pos.x-cam.pos.x),int(SCRY-((item.blk.y-cam.blk.y)*BLKY+item.pos.y+item.img.get_height()-cam.pos.y))))
+            screen.blit(item.animate(),(int((item.blk.x-cam.blk.x)*BLKX+item.pos.x-cam.pos.x),int(SCRY-((item.blk.y-cam.blk.y)*BLKY+item.pos.y+item.img.get_height()-cam.pos.y))))
         except TypeError:
             pass
     pygame.display.update()
