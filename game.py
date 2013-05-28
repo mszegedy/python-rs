@@ -162,7 +162,7 @@ while True:
     if indextable[0][1].x == None and player.pos.x < SCRX/2.:
         #cam.pos.x = player.pos.x/2.
         cam.pos.x = 0
-    elif indextable[2][1].x == None and player.pos.x+player.dim.y > BLKX-SCRX:
+    elif indextable[2][1].x == None and player.pos.x+player.dim.y-1. > BLKX-SCRX:
         #cam.pos.x = (BLKX+player.pos.x-SCRX)/2.
         cam.pos.x = BLKX-SCRX
     else:
