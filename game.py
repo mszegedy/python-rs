@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #
 # RELATIVISTIC SUN
-# by Michael Szegedy
+# by Maria Szegedy
 
 import pygame,world,sys,copy,math
 from collections import deque
